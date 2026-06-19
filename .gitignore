@@ -1,0 +1,26 @@
+# Binaries
+chpass-web
+
+# Go workspace
+.go
+
+# Dependency directories
+go.mod
+go.sum
+vendor/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Environment
+.env
