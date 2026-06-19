@@ -1,0 +1,20 @@
+<VirtualHost *:443>
+    ServerName password-change.example.com
+    SSLEngine on
+    SSLCertificateFile    /etc/ssl/certs/password-change.crt
+    SSLCertificateKeyFile /etc/ssl/private/password-change.key
+
+    LoadModule auth_pam_module /usr/lib/apache2/modules/mod_auth_pam.so
+
+    <Location />
+        AuthType Basic
+        AuthName "Change Password"
+        AuthPAMEnabled on
+        AuthPAMService passwd
+        Require valid-user
+        RequestHeader set REMOTE_USER %{REMOTE_USER}e
+    </Location>
+
+    ProxyPass / http://localhost:8080/
+    ProxyPassReverse / http://localhost:8080/
+</VirtualHost>
