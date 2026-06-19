@@ -1,0 +1,10 @@
+{{template "base" .}}
+{{define "content"}}
+    <h1>Password Change</h1>
+    <div class="prompt">{{.Prompt}}</div>
+    <form method="POST" action="/respond">
+        <label for="response">Response:</label>
+        <input type="password" name="response" id="response" required autofocus>
+        <button type="submit">Submit</button>
+    </form>
+{{end}}
