@@ -9,7 +9,29 @@ import (
 //go:embed templates/*.html
 var templateFS embed.FS
 
-var templates = template.Must(template.ParseFS(templateFS, "templates/*.html"))
+var templates map[string]*template.Template
+
+func init() {
+	// Parse base template first
+	base := template.New("")
+	base = template.Must(base.ParseFS(templateFS, "templates/base.html"))
+	
+	// Clone base and parse each page template to override blocks
+	promptTmpl := template.Must(base.Clone())
+	promptTmpl = template.Must(promptTmpl.ParseFS(templateFS, "templates/prompt.html"))
+	
+	errorTmpl := template.Must(base.Clone())
+	errorTmpl = template.Must(errorTmpl.ParseFS(templateFS, "templates/error.html"))
+	
+	successTmpl := template.Must(base.Clone())
+	successTmpl = template.Must(successTmpl.ParseFS(templateFS, "templates/success.html"))
+	
+	templates = map[string]*template.Template{
+		"prompt.html": promptTmpl,
+		"error.html":   errorTmpl,
+		"success.html": successTmpl,
+	}
+}
 
 func handleStart(w http.ResponseWriter, r *http.Request) {
 	// Check if REMOTE_USER header exists
@@ -88,17 +110,17 @@ func handleRespond(w http.ResponseWriter, r *http.Request) {
 }
 
 func renderPrompt(w http.ResponseWriter, prompt string) {
-	templates.ExecuteTemplate(w, "prompt.html", struct {
+	templates["prompt.html"].ExecuteTemplate(w, "base.html", struct {
 		Prompt string
 	}{Prompt: prompt})
 }
 
 func renderError(w http.ResponseWriter, errorMsg string) {
-	templates.ExecuteTemplate(w, "error.html", struct {
+	templates["error.html"].ExecuteTemplate(w, "base.html", struct {
 		Error string
 	}{Error: errorMsg})
 }
 
 func renderSuccess(w http.ResponseWriter) {
-	templates.ExecuteTemplate(w, "success.html", nil)
+	templates["success.html"].ExecuteTemplate(w, "base.html", nil)
 }
