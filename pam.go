@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/msteinert/pam"
+	"github.com/msteinert/pam/v2"
 )
 
 // runPam starts a PAM chauthtok transaction in a goroutine and communicates via channels
