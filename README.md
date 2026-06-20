@@ -29,7 +29,7 @@ User -> Apache (PAM Auth + TLS) -> Go Web App (PAM chauthtok) -> PAM
 - libpam0g-dev (Debian/Ubuntu)
 
 ### Build
-make build
+go build -o chpass-web
 
 ### Run (as root)
 sudo ./chpass-web
@@ -37,7 +37,7 @@ sudo ./chpass-web
 The server listens on 127.0.0.1:8080.
 
 ### Test
-make test
+go test -v -short ./...
 
 
 ## Deployment
