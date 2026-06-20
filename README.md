@@ -45,11 +45,6 @@ go test -v -short ./...
 ### Apache Configuration
 Use the provided apache.conf.example with mod_auth_pam.
 
-### Docker
-docker build -t chpass-web .
-docker run -p 8080:8080 --privileged chpass-web
-
-
 ## Security
 - Run as root (required for pam_chauthtok)
 - Apache handles authentication
