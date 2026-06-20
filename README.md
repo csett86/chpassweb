@@ -1,6 +1,8 @@
 # Conversational Password Change Web App
 
 
+> **⚠️ WARNING:** This project was implemented by Mistral AI. Use at your own risk. Review all code thoroughly before deployment in production environments.
+
 A single Go binary web application that provides a conversational password change interface, mapping PAM's conversational API 1:1 to HTTP POST requests. Uses in-memory sessions and pure HTML/CSS (no JavaScript).
 
 
