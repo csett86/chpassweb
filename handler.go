@@ -1,11 +1,15 @@
 package main
 
 import (
+	"embed"
 	"html/template"
 	"net/http"
 )
 
-var templates = template.Must(template.ParseGlob("templates/*.html"))
+//go:embed templates/*.html
+var templateFS embed.FS
+
+var templates = template.Must(template.ParseFS(templateFS, "templates/*.html"))
 
 func handleStart(w http.ResponseWriter, r *http.Request) {
 	// Check if REMOTE_USER header exists
