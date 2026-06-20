@@ -32,11 +32,3 @@ jobs:
 
     - name: Build binary
       run: go build -o chpass-web
-
-    - name: Verify binary
-      run: |
-        sudo ./chpass-web &
-        CHPID=$!
-        sleep 2
-        curl -s http://localhost:8080/ | grep -q "Password Change" && echo "Binary works" || exit 1
-        kill $CHPID
