@@ -10,12 +10,9 @@ func runPam(session *Session) {
 	defer close(session.ResponseCh)
 
 	// Conversation callback: pass PAM messages directly to the user
-	conv := pam.ConversationFunc(func(messages []pam.Message, numMsg int) ([]pam.Response, error) {
-		for _, msg := range messages {
-			session.PromptCh <- msg.Msg
-		}
-		response := <-session.ResponseCh
-		return []pam.Response{{Resp: response}}, nil
+	conv := pam.ConversationFunc(func(style pam.Style, msg string) (string, error) {
+		session.PromptCh <- msg
+		return <-session.ResponseCh, nil
 	})
 
 	// Use "passwd" service as specified
@@ -25,6 +22,6 @@ func runPam(session *Session) {
 		return
 	}
 
-	err = txn.Chauthtok(pam.ChangeExpireAuthTok)
+	err = txn.ChangeAuthTok(pam.ChangeExpiredAuthtok)
 	session.ResultCh <- err
 }

@@ -8,12 +8,14 @@ import (
 var templates = template.Must(template.ParseGlob("templates/*.html"))
 
 func handleStart(w http.ResponseWriter, r *http.Request) {
-	username := r.Header.Get("REMOTE_USER")
-	if username == "" {
+	// Check if REMOTE_USER header exists
+	if values := r.Header.Values("REMOTE_USER"); len(values) == 0 {
 		http.Error(w, "Authentication required", http.StatusUnauthorized)
 		return
 	}
-	if len(username) == 0 {
+	
+	username := r.Header.Get("REMOTE_USER")
+	if username == "" {
 		http.Error(w, "Invalid user", http.StatusBadRequest)
 		return
 	}
