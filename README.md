@@ -25,6 +25,9 @@ User -> Apache (PAM Auth + TLS) -> Go Web App (PAM chauthtok) -> PAM
 
 ## Quick Start
 
+### Build Dependencies
+- libpam0g-dev (Debian/Ubuntu)
+
 ### Build
 make build
 
