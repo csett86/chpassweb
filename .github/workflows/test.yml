@@ -14,21 +14,16 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v6
+    - uses: actions/checkout@v6
 
-    - name: Set up Go
-      uses: actions/setup-go@v6
+    - uses: actions/setup-go@v6
       with:
         go-version: '1.25'
 
     - run: sudo apt update && sudo apt install -y libpam0g-dev
 
-    - name: Install dependencies
-      run: go mod download
-
-    - name: Run unit tests
-      run: go test -v -short ./...
-
     - name: Build binary
       run: go build -o chpass-web
+
+    - name: Run unit tests
+      run: go test -count=1 ./...
